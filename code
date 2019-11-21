@@ -1,0 +1,61 @@
+library(MASS)
+male<-data.frame(x1=c(130,137,133,127,127,136,121,125,137,134,126,113,112),x2=c(189,262,200,218,
+171,187,169,224,230,199,144,183,217),x3=c(55,45,51,37,34,43,39,45,51,44,61,46,37))
+female<-data.frame(y1=c(118,122,132,122,123,133,117,148,132,122,132,123),y2=c(260,254,236,
+259,198,185,190,251,201,200,230,189),y3=c(47,53,45,60,36,45,37,41,48,49,39,31))
+gx1=rbind(c(125,170,30))
+gx2=c(130,180,45)
+v=as.matrix(male)
+b=as.matrix(female)
+attach(male)
+attach(female)
+A1=matrix(c(833.1032,943.7333,225.3110,943.7333,11447.4302,-589.4418,225.3110,
+-89.4418,718.2715),nrow=3,byrow=TRUE)
+A2=matrix(c(840,363.0508,-80,363.0508,9911.0935,1497.7677,
+-80,1497.7677,704.25),nrow=3,byrow=TRUE)
+N1=13
+N2=12
+S=round(solve((A1+A2)/23),4)
+S
+x1subx2=cbind(c(0.5385,-21.6218,0.9808))
+x1adx2=rbind(c(254.5385,420.5448,89.4808))
+lhs=round((gx1%*%S%*%x1subx2),4)
+rhs=(x1adx2%*%S%*%x1subx2)/2
+if(lhs-rhs > 0){
+  print("x belongs to popl1")
+} else{
+  print("x belongs to popl2")
+}
+lhs1=round((gx2%*%S%*%x1subx2),4)
+rhs1=(x1adx2%*%S%*%x1subx2)/2
+if(lhs1-rhs1 > 0){
+  print("x belongs to popl1 ")
+} else{
+  print("x belongs to popl2")
+}
+lhs2= v[c(1:13),]%*%S%*%x1subx2
+rhs2=(x1adx2%*%S%*%x1subx2)/2
+rshh=cbind(rep(c(-1.2195),times=13))
+for (i in 1:13) {
+  if(lhs2[i] > rshh){
+    print("x belongs to popl1 ")
+  } else{
+    print("x belongs to popl2")
+  }
+}
+lhs3= b[c(1:12),]%*%S%*%x1subx2
+rhs3=(x1adx2%*%S%*%x1subx2)/2
+rhs3
+rshh3=cbind(rep(c(-1.2195),times=13))
+rshh3
+for (i in 1:13) {
+  if(lhs3[i] > rshh3){
+    print("x belongs to popl1 ")
+  } else{
+    print("x belongs to popl2")
+  }
+}
+n1=5
+n2=5
+error=(n1+n2)/(N1+N2)
+error
